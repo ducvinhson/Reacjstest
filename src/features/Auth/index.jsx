@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '.styles.scss';
-Header.propTypes = {
-    
+
+index.propTypes = {
+
 };
 
-function Header(props) {
+function index(props) {
     return (
         <div>
-            Header
+
         </div>
     );
 }
 
-export default Header;
+export default index;
