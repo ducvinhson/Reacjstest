@@ -12,9 +12,11 @@ import Register from 'features/Auth/components/Register';
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
-import { Close } from '@material-ui/icons';
+import { AccountCircle, Close } from '@material-ui/icons';
 import Login from './../../features/Auth/components/Login/index';
-import { Box } from '@material-ui/core';
+import { Box, Menu, MenuItem } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from 'features/Auth/userSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
         right: theme.spacing(1),
         color: theme.palette.grey[500],
         zIndex: 1,
-    }
+    },
+
 }));
 
 const MODE = {
@@ -46,8 +49,13 @@ const MODE = {
 };
 
 export default function Header() {
+    const dispatch = useDispatch();
+    const loggedInUser = useSelector(state => state.user.current);
+    const isLoggedIn = !!loggedInUser.id;
+
     const [open, setOpen] = useState(false);
-    const [mode, SetMode] = useState(MODE.LOGIN)
+    const [mode, SetMode] = useState(MODE.LOGIN);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -56,15 +64,25 @@ export default function Header() {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleUserClick = (e) => {
+        setAnchorEl(e.currentTarget);
+    }
+    const handleCloseMenu = () => {
+        setAnchorEl(null)
+    }
+    const handleLogoutClick = () => {
+        const action = logout();
+        dispatch(action);
+        handleCloseMenu();
+    }
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <CodeIcon className={classes.menuButton} />
                     <Typography variant="h6" className={classes.title}>
-                        <Link to="/" className={classes.link}>DUCVINHSON </Link>
+                        <Link to="/" className={classes.link}>SHOPDUKE </Link>
                     </Typography>
                     <NavLink to="/todos" className={classes.link}>
                         <Button color="inherit">TODOS</Button>
@@ -72,9 +90,37 @@ export default function Header() {
                     <NavLink to="/albums" className={classes.link}>
                         <Button color="inherit">ALBUMS</Button>
                     </NavLink>
-                    <Button color="inherit" onClick={handleClickOpen} >Register</Button>
+                    {!isLoggedIn && (
+                        <Button color="inherit" onClick={handleClickOpen} className={classes.btnlogin} >Login</Button>
+                    )}
+
+                    {isLoggedIn && (
+                        <IconButton color="inherit" onClick={handleUserClick}>
+                            <AccountCircle />
+                        </IconButton>
+                    )}
                 </Toolbar>
             </AppBar>
+
+            <Menu
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                getContentAnchorEl={null}
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleCloseMenu}
+            >
+                <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+                <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+            </Menu>
+
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableBackdropClick disableEscapeKeyDown>
                 <IconButton className={classes.closeButton} onClick={handleClose} >
                     <Close />
@@ -94,7 +140,7 @@ export default function Header() {
                         )}
                         {mode === MODE.LOGIN && (
                             <>
-                                <Login closeDialog={handleClose} />
+                                <Login closeDialog={handleClose} />`
 
                                 <Box textAlign="center" >
                                     <Button color="primary" onClick={() => SetMode(MODE.REGISTER)}>

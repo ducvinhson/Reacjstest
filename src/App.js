@@ -1,24 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import AlbumFeature from '../src/features/Album/pages/index';
 import TodoFeature from '../src/features/Todo/Pages/index';
-import productApi from './api/productApi';
 import './App.css';
-import CounterFeature from './features/Counter/index';
 import Header from './components/Headerr/index';
-import  Button  from '@material-ui/core/Button';
-import { useSnackbar } from 'notistack';
+import CartFeatures from './features/Cart/index';
+import CounterFeature from './features/Counter/index';
+import ProductFeature from './features/Product/index';
 function App() {
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const params = {
-        _limit: 10,
-      }
-      const productList = await productApi.getAll(params);
-      console.log(productList)
-    };
-    fetchProducts();
-  }, []);
   return (
     <div className = "app">
       <Header/>
@@ -27,10 +16,10 @@ function App() {
         <Route path="/" component={CounterFeature} exact />
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={AlbumFeature} />
-
+        <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeatures} />
         {/* <Route component={NotFound} /> */}
       </Switch>
-      Footer
     </div>
   );
 }

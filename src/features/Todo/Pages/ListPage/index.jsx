@@ -1,11 +1,11 @@
 import queryString from 'query-string';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 ListPage.propTypes = {
 
 };
 
-function ListPage(props) {
+function ListPage() {
     const initTodoList = [
         {
             id: 1,
@@ -26,7 +26,7 @@ function ListPage(props) {
     const location = useLocation();
     const history = useHistory();
     const match = useRouteMatch();
-    const [todoList, setTodoList] = useState(initTodoList);
+    const [todoList] = useState(initTodoList);
     const [filteredStatus, setFilteredStatus] = useState(() => {
         const params = queryString.parse(location.search)
 
@@ -39,15 +39,15 @@ function ListPage(props) {
         setFilteredStatus(params.status || 'all');
     }, [location.search]);
 
-    const handleTodoClick = (todo, idx) => {
-        const newTodoList = [...todoList];
+    // const handleTodoClick = (todo, idx) => {
+    //     const newTodoList = [...todoList];
 
-        newTodoList[idx] = {
-            ...newTodoList[idx],
-            status: newTodoList[idx].status === 'New' ? 'completed' : 'New',
-        };
-        setTodoList(newTodoList);
-    }
+    //     newTodoList[idx] = {
+    //         ...newTodoList[idx],
+    //         status: newTodoList[idx].status === 'New' ? 'completed' : 'New',
+    //     };
+    //     setTodoList(newTodoList);
+    // }
     const handleShowAllClick = () => {
         const queryParams = { status: 'all' };
         history.push({
@@ -70,13 +70,13 @@ function ListPage(props) {
         })
 
     }
-    const renderedTodoList = useMemo(() => {
-        return todoList.filter(todo => filteredStatus === 'all' || filteredStatus === todo.status)
+    // const renderedTodoList = useMemo(() => {
+    //     return todoList.filter(todo => filteredStatus === 'all' || filteredStatus === todo.status)
 
-    }, [todoList, filteredStatus])
-    const handleTodoFormSubmit = (values) => {
-        console.log('Form Submit:', values)
-    };
+    // }, [todoList, filteredStatus])
+    // const handleTodoFormSubmit = (values) => {
+    //     console.log('Form Submit:', values)
+    // };
     return (
         <div>
             <div>

@@ -37,7 +37,6 @@ function PasswordField(props) {
                     <OutlinedInput
                         {...field}
                         disabled={disabled}
-                        error={!!hasError}
                         id={name}
                         type={showPassword ? 'text' : 'password'}
                         label={label}
