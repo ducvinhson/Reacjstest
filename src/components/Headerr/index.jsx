@@ -1,22 +1,20 @@
+import { Box, Menu, MenuItem } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import CodeIcon from '@material-ui/icons/Code';
-import Register from 'features/Auth/components/Register';
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
 import { AccountCircle, Close } from '@material-ui/icons';
-import Login from './../../features/Auth/components/Login/index';
-import { Box, Menu, MenuItem } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
+import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink } from 'react-router-dom';
+import Login from './../../features/Auth/components/Login/index';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -84,12 +82,6 @@ export default function Header() {
                     <Typography variant="h6" className={classes.title}>
                         <Link to="/" className={classes.link}>SHOPDUKE </Link>
                     </Typography>
-                    <NavLink to="/todos" className={classes.link}>
-                        <Button color="inherit">TODOS</Button>
-                    </NavLink>
-                    <NavLink to="/albums" className={classes.link}>
-                        <Button color="inherit">ALBUMS</Button>
-                    </NavLink>
                     <NavLink to="/products" className={classes.link}>
                         <Button color="inherit">PRODUCT</Button>
                     </NavLink>
